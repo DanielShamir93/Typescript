@@ -136890,8 +136890,8 @@ function () {
   function User() {
     this.name = faker_1.default.name.firstName();
     this.location = {
-      lat: Number(faker_1.default.address.longitude()),
-      lng: Number(faker_1.default.address.latitude())
+      lat: Number(faker_1.default.address.latitude()),
+      lng: Number(faker_1.default.address.longitude())
     };
   }
 
@@ -136899,7 +136899,82 @@ function () {
 }();
 
 exports.User = User;
-},{"faker":"../node_modules/faker/index.js"}],"src/index.ts":[function(require,module,exports) {
+},{"faker":"../node_modules/faker/index.js"}],"src/Company.ts":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Company = void 0;
+
+var faker_1 = __importDefault(require("faker"));
+
+var Company =
+/** @class */
+function () {
+  function Company() {
+    this.name = faker_1.default.company.companyName();
+    this.catchPhrase = faker_1.default.company.catchPhrase();
+    this.location = {
+      lat: Number(faker_1.default.address.latitude()),
+      lng: Number(faker_1.default.address.longitude())
+    };
+  }
+
+  return Company;
+}();
+
+exports.Company = Company;
+},{"faker":"../node_modules/faker/index.js"}],"src/MyMap.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MyMap = void 0;
+
+var MyMap =
+/** @class */
+function () {
+  function MyMap(divId) {
+    this.googleMap = new google.maps.Map(document.getElementById(divId), {
+      zoom: 1,
+      center: {
+        lat: 0,
+        lng: 0
+      }
+    });
+  }
+
+  MyMap.prototype.addMarker = function (mappable) {
+    var _this = this;
+
+    var marker = new google.maps.Marker({
+      map: this.googleMap,
+      position: {
+        lat: mappable.location.lat,
+        lng: mappable.location.lng
+      }
+    });
+    marker.addListener('mouseover', function () {
+      var infoWindow = new google.maps.InfoWindow({
+        content: 'Hi!!'
+      });
+      infoWindow.open(_this.googleMap, marker);
+    });
+  };
+
+  return MyMap;
+}();
+
+exports.MyMap = MyMap;
+},{}],"src/index.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -136908,8 +136983,16 @@ Object.defineProperty(exports, "__esModule", {
 
 var User_1 = require("./User");
 
-console.log(User_1.User);
-},{"./User":"src/User.ts"}],"../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var Company_1 = require("./Company");
+
+var MyMap_1 = require("./MyMap");
+
+var user = new User_1.User();
+var company = new Company_1.Company();
+var myMap = new MyMap_1.MyMap('map');
+myMap.addMarker(user);
+myMap.addMarker(company);
+},{"./User":"src/User.ts","./Company":"src/Company.ts","./MyMap":"src/MyMap.ts"}],"../../../../../../usr/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -136937,7 +137020,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45313" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36381" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
